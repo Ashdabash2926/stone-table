@@ -180,6 +180,39 @@
     }
 
     /* animated warm radial gradient — candlelight */
+    /* ── HERO PHOTO: Crossfade slideshow ── */
+    .hero-slideshow {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    .hero-slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1.8s ease-in-out;
+      transform: scale(1.12);
+    }
+    .hero-slide.active {
+      opacity: 1;
+      animation: slide-zoom 8s ease-in-out forwards;
+    }
+    @keyframes slide-zoom {
+      0%   { transform: scale(1.12); }
+      100% { transform: scale(1.0); }
+    }
+    .hero-slide-1 { background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80'); }
+    .hero-slide-2 { background-image: url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&q=80'); }
+    .hero-slide-3 { background-image: url('https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?w=1920&q=80'); }
+    .hero-slide-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 8, 5, 0.6);
+      pointer-events: none;
+    }
+
     .candle-glow {
       position: absolute;
       inset: 0;
@@ -1004,6 +1037,12 @@
 
   <!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
   <section id="hero" role="banner">
+    <div class="hero-slideshow" aria-hidden="true">
+      <div class="hero-slide hero-slide-1 active"></div>
+      <div class="hero-slide hero-slide-2"></div>
+      <div class="hero-slide hero-slide-3"></div>
+    </div>
+    <div class="hero-slide-overlay" aria-hidden="true"></div>
     <div class="candle-glow" aria-hidden="true"></div>
     <div class="hero-vignette" aria-hidden="true"></div>
     <div class="hero-top-fade" aria-hidden="true"></div>
@@ -1537,6 +1576,16 @@
 
   <!-- ═══════════════════════════════ JS ════════════════════════════════ -->
   <script>
+    /* ── HERO SLIDESHOW ─────────────────────────────────────────────── */
+    const slides = document.querySelectorAll('.hero-slide');
+    let currentSlide = 0;
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+    setInterval(nextSlide, 7000);
+
     /* ── NAV: scroll state ─────────────────────────────────────────────── */
     const nav = document.getElementById('nav');
     const onScroll = () => {
