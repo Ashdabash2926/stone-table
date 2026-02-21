@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Stone Table — Modern British Cuisine · Leeds</title>
+  <meta name="description" content="The Stone Table — an intimate modern British bistro in the heart of Leeds. Seasonal menus, private dining, and thoughtful hospitality." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:      #0f0d09;
+      --cream:   #f5f0e8;
+      --gold:    #c9a474;
+      --stone:   #8a7560;
+      --mid:     #1a1612;
+      --panel:   #161310;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, h4, h5, .serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--stone); border-radius: 3px; }
+
+    /* ─── NAVIGATION ─────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.scrolled {
+      background: rgba(15, 13, 9, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom-color: rgba(201, 164, 116, 0.15);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      letter-spacing: 0.25em;
+      color: var(--cream);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.55rem 1.3rem;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .nav-cta:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--cream);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    #mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99;
+      background: rgba(10, 8, 5, 0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+    #mobile-menu.open { display: flex; }
+    #mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--cream);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      transition: color 0.3s;
+    }
+    #mobile-menu a:hover { color: var(--gold); }
+    #mobile-menu .mob-cta {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.8rem 2rem;
+      margin-top: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .nav-cta { display: none !important; }
+      .hamburger { display: flex; }
+    }
+
+    /* ─── HERO ─────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* animated warm radial gradient — candlelight */
+    .candle-glow {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 55% 55% at 50% 60%,
+          rgba(201, 164, 116, 0.13) 0%,
+          rgba(180, 110, 40, 0.07) 40%,
+          transparent 72%),
+        radial-gradient(ellipse 30% 40% at 52% 58%,
+          rgba(230, 160, 60, 0.09) 0%,
+          transparent 60%);
+      animation: candleBreath 6s ease-in-out infinite;
+    }
+    @keyframes candleBreath {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      33% {
+        opacity: 0.82;
+        transform: scale(1.04) translateY(-6px);
+      }
+      66% {
+        opacity: 0.93;
+        transform: scale(0.97) translateY(3px);
+      }
+    }
+
+    /* subtle warm noise vignette */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 80% at 50% 50%,
+        transparent 30%,
+        rgba(8, 6, 4, 0.6) 80%,
+        rgba(5, 4, 2, 0.85) 100%);
+      pointer-events: none;
+    }
+
+    /* top & bottom gradient masks */
+    .hero-top-fade {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(to bottom, var(--bg), transparent);
+      pointer-events: none;
+    }
+    .hero-bottom-fade {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to top, var(--bg), transparent);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeUp 1s 0.4s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.4rem, 9vw, 7.5rem);
+      line-height: 0.95;
+      letter-spacing: 0.04em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp 1.1s 0.7s forwards;
+    }
+
+    .hero-rule {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      opacity: 0;
+      animation: fadeUp 1s 1.1s forwards;
+    }
+
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: rgba(245, 240, 232, 0.65);
+      letter-spacing: 0.06em;
+      opacity: 0;
+      animation: fadeUp 1s 1.3s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 0.5rem;
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 1rem 2.4rem;
+      text-decoration: none;
+      transition: background 0.35s, color 0.35s;
+      opacity: 0;
+      animation: fadeUp 1s 1.6s forwards;
+    }
+    .hero-cta:hover {
+      background: var(--gold);
+      color: var(--bg);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeUp 1s 2.2s forwards;
+    }
+    .scroll-hint span {
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(201, 164, 116, 0.5);
+    }
+    .scroll-hint-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollLine 2s ease-in-out infinite 2.5s;
+    }
+    @keyframes scrollLine {
+      0%, 100% { transform: scaleY(1); opacity: 0.5; }
+      50%       { transform: scaleY(0.6); opacity: 1; }
+    }
+
+    /* ─── SECTION COMMON ─────────────────────────────────────── */
+    .section-wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+    @media (min-width: 768px) { .section-wrap { padding: 7rem 2rem; } }
+
+    .section-label {
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .section-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.1;
+      color: var(--cream);
+    }
+    .gold-rule {
+      display: block;
+      width: 50px;
+      height: 1px;
+      background: var(--gold);
+      margin: 1.6rem 0;
+    }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ─── MENU SECTION ───────────────────────────────────────── */
+    #menu { background: var(--bg); }
+
+    .menu-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid rgba(201, 164, 116, 0.2);
+      margin-bottom: 3rem;
+    }
+    .tab-btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.4);
+      background: none;
+      border: none;
+      border-bottom: 1px solid transparent;
+      padding: 0.9rem 1.8rem;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s;
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover { color: var(--cream); }
+    .tab-btn.active {
+      color: var(--gold);
+      border-bottom-color: var(--gold);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; }
+
+    .menu-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    @media (min-width: 640px) {
+      .menu-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .menu-item {
+      padding: 1.8rem 0;
+      border-bottom: 1px solid rgba(138, 117, 96, 0.18);
+    }
+    @media (min-width: 640px) {
+      .menu-item:nth-child(odd) { padding-right: 3rem; }
+      .menu-item:nth-child(even) { padding-left: 3rem; border-left: 1px solid rgba(138, 117, 96, 0.18); }
+    }
+
+    .menu-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .menu-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: var(--cream);
+      line-height: 1.3;
+    }
+    .menu-item-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .menu-item-desc {
+      font-size: 0.78rem;
+      color: rgba(245, 240, 232, 0.5);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .menu-note {
+      margin-top: 2.5rem;
+      font-size: 0.72rem;
+      color: rgba(245, 240, 232, 0.35);
+      font-style: italic;
+      letter-spacing: 0.04em;
+    }
+
+    /* ─── OUR STORY ──────────────────────────────────────────── */
+    #story { background: var(--panel); }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    @media (min-width: 900px) {
+      .story-grid { grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+    }
+
+    .story-pull {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+      line-height: 1.35;
+      color: var(--cream);
+      border-left: 2px solid var(--gold);
+      padding-left: 2rem;
+    }
+
+    .story-body p {
+      font-size: 0.88rem;
+      color: rgba(245, 240, 232, 0.65);
+      font-weight: 300;
+      line-height: 1.9;
+      margin-bottom: 1.4rem;
+    }
+    .story-body p:last-child { margin-bottom: 0; }
+    .story-chef {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .chef-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--stone) 0%, #5a4a38 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      flex-shrink: 0;
+    }
+    .chef-info-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      color: var(--cream);
+    }
+    .chef-info-role {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-top: 0.1rem;
+    }
+
+    /* ─── GALLERY ────────────────────────────────────────────── */
+    #gallery { background: var(--bg); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .gallery-tile.large { grid-column: span 2; }
+    }
+
+    .gallery-tile {
+      position: relative;
+      overflow: hidden;
+      background: var(--mid);
+    }
+    .gallery-tile.large {
+      grid-row: span 2;
+    }
+    .gallery-tile-inner {
+      width: 100%;
+      height: 100%;
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-tile.large .gallery-tile-inner {
+      min-height: 460px;
+    }
+    @media (max-width: 640px) {
+      .gallery-tile.large .gallery-tile-inner { min-height: 280px; }
+      .gallery-tile-inner { min-height: 180px; }
+    }
+
+    /* gold shimmer animation */
+    .gallery-shimmer {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          110deg,
+          rgba(201, 164, 116, 0.04) 0%,
+          rgba(201, 164, 116, 0.10) 30%,
+          rgba(230, 190, 120, 0.18) 50%,
+          rgba(201, 164, 116, 0.10) 70%,
+          rgba(201, 164, 116, 0.04) 100%
+        );
+      background-size: 300% 100%;
+      animation: shimmer 3.5s ease-in-out infinite;
+    }
+    .gallery-tile:nth-child(2) .gallery-shimmer { animation-delay: 0.5s; }
+    .gallery-tile:nth-child(3) .gallery-shimmer { animation-delay: 1.0s; }
+    .gallery-tile:nth-child(4) .gallery-shimmer { animation-delay: 1.5s; }
+    .gallery-tile:nth-child(5) .gallery-shimmer { animation-delay: 2.0s; }
+    .gallery-tile:nth-child(6) .gallery-shimmer { animation-delay: 2.5s; }
+
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .gallery-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1.2rem 1rem;
+      background: linear-gradient(to top, rgba(8,6,4,0.7), transparent);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: rgba(245, 240, 232, 0.5);
+      letter-spacing: 0.05em;
+    }
+
+    /* decorative warm radial in each tile */
+    .gallery-glow {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 70% at 40% 60%,
+        rgba(140, 80, 20, 0.12) 0%,
+        transparent 70%);
+    }
+
+    /* ─── PRIVATE DINING ─────────────────────────────────────── */
+    #events { background: var(--panel); }
+
+    .events-card {
+      border: 1px solid rgba(201, 164, 116, 0.25);
+      padding: 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .events-card { grid-template-columns: 1fr 1fr; gap: 4rem; }
+    }
+    .events-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+    }
+
+    .events-card-body h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.9rem;
+      color: var(--cream);
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+    .events-card-body p {
+      font-size: 0.85rem;
+      color: rgba(245, 240, 232, 0.6);
+      line-height: 1.9;
+      margin-bottom: 1rem;
+    }
+    .events-card-body p:last-child { margin-bottom: 0; }
+
+    .events-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+    }
+    .events-detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .events-detail-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .events-detail-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.1rem;
+      color: var(--cream);
+    }
+    .events-cta {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 0.8rem 1.8rem;
+      text-decoration: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    .events-cta:hover { background: var(--gold); color: var(--bg); }
+
+    /* ─── RESERVATIONS ───────────────────────────────────────── */
+    #reserve { background: var(--bg); }
+
+    .reserve-wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+    }
+    @media (min-width: 520px) {
+      .form-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      font-size: 0.6rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .field input,
+    .field select,
+    .field textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(138, 117, 96, 0.4);
+      color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 0.85rem;
+      padding: 0.65rem 0;
+      outline: none;
+      transition: border-color 0.3s;
+      width: 100%;
+    }
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-bottom-color: var(--gold);
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: rgba(245, 240, 232, 0.25);
+    }
+    .field select option {
+      background: #1a1612;
+      color: var(--cream);
+    }
+    .field textarea {
+      resize: none;
+      height: 90px;
+    }
+
+    /* date input style */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7) sepia(1) saturate(0.5) hue-rotate(5deg);
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .reserve-btn {
+      margin-top: 1rem;
+      display: inline-block;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--gold);
+      border: none;
+      padding: 1.1rem 3rem;
+      cursor: pointer;
+      transition: opacity 0.3s, transform 0.2s;
+    }
+    .reserve-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .form-note {
+      margin-top: 1.2rem;
+      font-size: 0.72rem;
+      color: rgba(245, 240, 232, 0.3);
+      font-style: italic;
+    }
+
+    /* ─── FIND US ────────────────────────────────────────────── */
+    #findus { background: var(--panel); }
+
+    .findus-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    @media (min-width: 768px) {
+      .findus-grid { grid-template-columns: 1fr 1fr; gap: 5rem; }
+    }
+
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .hours-table tr {
+      border-bottom: 1px solid rgba(138, 117, 96, 0.15);
+    }
+    .hours-table td {
+      padding: 0.7rem 0;
+      font-size: 0.83rem;
+      color: rgba(245, 240, 232, 0.6);
+    }
+    .hours-table td:first-child {
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+    }
+    .hours-table td:last-child { text-align: right; }
+
+    .findus-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    .contact-item-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .contact-item-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.05rem;
+      color: var(--cream);
+      line-height: 1.55;
+    }
+    .contact-item-value a {
+      color: var(--cream);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .contact-item-value a:hover { color: var(--gold); }
+
+    .map-placeholder {
+      margin-top: 2rem;
+      width: 100%;
+      height: 180px;
+      background: var(--mid);
+      border: 1px solid rgba(138, 117, 96, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .map-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%,
+        rgba(201, 164, 116, 0.06) 0%,
+        transparent 70%);
+    }
+    .map-placeholder span {
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(201, 164, 116, 0.3);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────── */
+    footer {
+      background: #0a0805;
+      border-top: 1px solid rgba(201, 164, 116, 0.1);
+      padding: 4rem 2rem 2.5rem;
+    }
+    .footer-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+    @media (min-width: 640px) {
+      .footer-top { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.5rem;
+      letter-spacing: 0.1em;
+      color: var(--cream);
+      margin-bottom: 0.6rem;
+    }
+    .footer-tagline {
+      font-size: 0.72rem;
+      color: rgba(245, 240, 232, 0.3);
+      font-style: italic;
+    }
+
+    .footer-col h4 {
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul li a {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.45);
+      text-decoration: none;
+      transition: color 0.3s;
+      letter-spacing: 0.03em;
+    }
+    .footer-col ul li a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(138, 117, 96, 0.12);
+      padding-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 640px) {
+      .footer-bottom { flex-direction: row; justify-content: space-between; text-align: left; }
+    }
+    .footer-copy {
+      font-size: 0.7rem;
+      color: rgba(245, 240, 232, 0.2);
+      letter-spacing: 0.04em;
+    }
+    .footer-legal {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-legal a {
+      font-size: 0.7rem;
+      color: rgba(245, 240, 232, 0.2);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-legal a:hover { color: var(--gold); }
+
+    /* ─── HORIZONTAL RULE ────────────────────────────────────── */
+    .gold-divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201, 164, 116, 0.3), transparent);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════ NAV ═══════════════════════════════ -->
+  <nav id="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo" aria-label="The Stone Table home">The Stone Table</a>
+      <ul class="nav-links" aria-label="Site links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#findus">Find Us</a></li>
+      </ul>
+      <a href="#reserve" class="nav-cta" aria-label="Reserve a table">Reserve a Table</a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- mobile menu -->
+  <div id="mobile-menu" role="dialog" aria-label="Mobile navigation">
+    <a href="#menu" class="mob-nav-link">Menu</a>
+    <a href="#story" class="mob-nav-link">Our Story</a>
+    <a href="#events" class="mob-nav-link">Events</a>
+    <a href="#findus" class="mob-nav-link">Find Us</a>
+    <a href="#reserve" class="mob-cta mob-nav-link">Reserve a Table</a>
+  </div>
+
+  <!-- ═══════════════════════════════ HERO ══════════════════════════════ -->
+  <section id="hero" role="banner">
+    <div class="candle-glow" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <div class="hero-top-fade" aria-hidden="true"></div>
+    <div class="hero-bottom-fade" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Leeds, West Yorkshire · Est. 2019</span>
+      <h1 class="hero-title">The Stone<br />Table</h1>
+      <div class="hero-rule" aria-hidden="true"></div>
+      <p class="hero-tagline">Modern British Cuisine &middot; Honest Ingredients &middot; Considered Craft</p>
+      <a href="#reserve" class="hero-cta">Reserve a Table</a>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <span>Explore</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MENU ══════════════════════════════ -->
+  <section id="menu" aria-labelledby="menu-heading">
+    <div class="section-wrap">
+      <div class="reveal">
+        <span class="section-label">The Kitchen</span>
+        <h2 class="section-heading" id="menu-heading">Seasonal Menu</h2>
+        <span class="gold-rule" aria-hidden="true"></span>
+        <p style="font-size:0.83rem; color:rgba(245,240,232,0.5); max-width:520px; margin-bottom:2.5rem;">
+          Our menu changes with the seasons, honouring the Yorkshire landscape and the producers who shape it.
+          All dishes are available as part of our three-course dinner menu at &pound;58 per person.
+        </p>
+      </div>
+
+      <!-- tabs -->
+      <div class="menu-tabs reveal reveal-delay-1" role="tablist" aria-label="Menu sections">
+        <button class="tab-btn active" data-tab="starters" role="tab" aria-selected="true" aria-controls="tab-starters">Starters</button>
+        <button class="tab-btn" data-tab="mains" role="tab" aria-selected="false" aria-controls="tab-mains">Mains</button>
+        <button class="tab-btn" data-tab="desserts" role="tab" aria-selected="false" aria-controls="tab-desserts">Desserts</button>
+      </div>
+
+      <!-- STARTERS -->
+      <div class="tab-panel menu-grid active" id="tab-starters" role="tabpanel">
+        <div class="menu-item reveal">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Seared Orkney Scallops</span>
+            <span class="menu-item-price">&pound;16</span>
+          </div>
+          <p class="menu-item-desc">Hand-dived scallops, silky pea &amp; mint purée, crisp pancetta, micro herbs, brown butter emulsion</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-1">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Smoked Chalk Stream Trout</span>
+            <span class="menu-item-price">&pound;13</span>
+          </div>
+          <p class="menu-item-desc">Coldsmoked trout rillette, crème fraîche, pickled cucumber ribbons, dill oil, rye crisp</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-2">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Roasted Heritage Beetroot</span>
+            <span class="menu-item-price">&pound;11</span>
+          </div>
+          <p class="menu-item-desc">Golden &amp; ruby beetroot, whipped Yorkshire goat's curd, candied walnut, aged balsamic, watercress</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-3">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Chicken Liver P&acirc;t&eacute;</span>
+            <span class="menu-item-price">&pound;12</span>
+          </div>
+          <p class="menu-item-desc">Silky parfait, Madeira jelly, Dijon &amp; thyme butter, toasted sourdough, Bramley apple chutney</p>
+        </div>
+      </div>
+
+      <!-- MAINS -->
+      <div class="tab-panel menu-grid" id="tab-mains" role="tabpanel">
+        <div class="menu-item reveal">
+          <div class="menu-item-top">
+            <span class="menu-item-name">28-Day Aged Sirloin</span>
+            <span class="menu-item-price">&pound;36</span>
+          </div>
+          <p class="menu-item-desc">Dry-aged Yorkshire sirloin, bone marrow butter, triple-cooked chips, watercress, Béarnaise or peppercorn sauce</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-1">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Cornish Turbot</span>
+            <span class="menu-item-price">&pound;34</span>
+          </div>
+          <p class="menu-item-desc">Pan-roasted turbot fillet, crab bisque beurre blanc, saffron-poached leeks, samphire, coastal herbs</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-2">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Slow-Braised Ox Cheek</span>
+            <span class="menu-item-price">&pound;28</span>
+          </div>
+          <p class="menu-item-desc">72-hour braised cheek, Merlot &amp; thyme jus, creamed celeriac, glazed Chantenay carrots, crisp shallots</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-3">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Wild Mushroom &amp; Truffle Risotto</span>
+            <span class="menu-item-price">&pound;22</span>
+          </div>
+          <p class="menu-item-desc">Carnaroli rice, mixed wild mushrooms, black truffle, aged Parmesan, chive oil, toasted pine nuts</p>
+        </div>
+      </div>
+
+      <!-- DESSERTS -->
+      <div class="tab-panel menu-grid" id="tab-desserts" role="tabpanel">
+        <div class="menu-item reveal">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Valrhona Chocolate Delice</span>
+            <span class="menu-item-price">&pound;10</span>
+          </div>
+          <p class="menu-item-desc">64% dark chocolate, salted caramel, aerated ganache, malt ice cream, honeycomb</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-1">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Poached Williams Pear</span>
+            <span class="menu-item-price">&pound;9</span>
+          </div>
+          <p class="menu-item-desc">Sauternes-poached pear, Stilton cream, candied pecans, pear sorbet, aged Pedro Ximénez</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-2">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Yorkshire Rhubarb Fool</span>
+            <span class="menu-item-price">&pound;9</span>
+          </div>
+          <p class="menu-item-desc">Forced rhubarb compote, Chantilly cream, ginger shortbread crumb, pink rhubarb sorbet</p>
+        </div>
+        <div class="menu-item reveal reveal-delay-3">
+          <div class="menu-item-top">
+            <span class="menu-item-name">Artisan Cheese &amp; Biscuits</span>
+            <span class="menu-item-price">&pound;13</span>
+          </div>
+          <p class="menu-item-desc">A selection of three British cheeses, oat biscuits, quince paste, celery, seasonal chutney</p>
+        </div>
+      </div>
+
+      <p class="menu-note reveal">
+        Dishes may contain allergens. Please inform your server of any dietary requirements before ordering.
+        A discretionary 12.5% service charge will be added to your bill.
+      </p>
+    </div>
+  </section>
+
+  <div class="gold-divider" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════ STORY ═════════════════════════════ -->
+  <section id="story" aria-labelledby="story-heading">
+    <div class="section-wrap">
+      <div class="story-grid">
+        <div class="reveal">
+          <span class="section-label">Our Story</span>
+          <blockquote class="story-pull">
+            &ldquo;Good cooking is not about complexity &mdash; it is about honesty, restraint, and a profound respect for what the land gives you.&rdquo;
+          </blockquote>
+          <div style="margin-top:2.5rem;" class="story-chef">
+            <div class="chef-avatar" aria-hidden="true">E</div>
+            <div>
+              <div class="chef-info-name">Eleanor Ashworth</div>
+              <div class="chef-info-role">Head Chef &amp; Proprietor</div>
+            </div>
+          </div>
+        </div>
+        <div class="story-body reveal reveal-delay-2">
+          <h2 class="section-heading" id="story-heading" style="margin-bottom:1.2rem; font-size:clamp(1.6rem,3vw,2.4rem);">A Kitchen Rooted<br />in Yorkshire Soil</h2>
+          <p>
+            The Stone Table was born from a simple conviction: that the finest dining in the North need not look southward for its inspiration.
+            Chef Eleanor Ashworth trained under two Michelin-starred kitchens before returning to her native West Yorkshire in 2019, drawn
+            by the extraordinary larder she had always taken for granted &mdash; the moorland game, the forced rhubarb of the Wakefield Triangle,
+            the aged cheeses of the Dales.
+          </p>
+          <p>
+            The room itself is deliberate. Reclaimed stone flags, hand-thrown ceramics from a potter in Haworth, candlelight that moves with
+            the draught of conversation. Nothing here is accidental. The name comes from the great oak table in Eleanor's grandmother's kitchen
+            &mdash; a place where food was serious, sustaining, and always an act of love.
+          </p>
+          <p>
+            We work with fewer than twenty suppliers, most within sixty miles of the restaurant, and our menu changes entirely with the turning
+            of each season. We believe that the best thing a chef can do is get out of the way of an exceptional ingredient &mdash; and occasionally,
+            with great care, to make it sing in a way it never could alone.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════ GALLERY ═══════════════════════════ -->
+  <section id="gallery" aria-label="Restaurant gallery">
+    <div class="section-wrap">
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <span class="section-label">The Atmosphere</span>
+        <h2 class="section-heading">Inside The Stone Table</h2>
+        <span class="gold-rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="gallery-grid">
+
+        <!-- large tile 1 -->
+        <div class="gallery-tile large reveal">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">The Dining Room</div>
+          </div>
+        </div>
+
+        <!-- small tiles -->
+        <div class="gallery-tile reveal reveal-delay-1">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">Seasonal Dishes</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile reveal reveal-delay-2">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">The Wine Cellar</div>
+          </div>
+        </div>
+
+        <!-- large tile 2 -->
+        <div class="gallery-tile large reveal reveal-delay-1">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">Private Dining Room</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile reveal reveal-delay-3">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">The Bar</div>
+          </div>
+        </div>
+
+        <div class="gallery-tile reveal reveal-delay-4">
+          <div class="gallery-tile-inner">
+            <div class="gallery-glow" aria-hidden="true"></div>
+            <div class="gallery-shimmer" aria-hidden="true"></div>
+            <div class="gallery-label">Evening Service</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════ EVENTS ════════════════════════════ -->
+  <section id="events" aria-labelledby="events-heading">
+    <div class="section-wrap">
+      <div class="reveal" style="margin-bottom:2.5rem;">
+        <span class="section-label">Private Hire</span>
+        <h2 class="section-heading" id="events-heading">Private Dining<br />&amp; Events</h2>
+        <span class="gold-rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="events-card reveal">
+        <div class="events-card-body">
+          <h3>An Intimate Space for Extraordinary Occasions</h3>
+          <p>
+            The Ashworth Room &mdash; our private dining suite overlooking the restored Victorian courtyard &mdash;
+            seats up to twenty-four guests for exclusive dinners, celebratory lunches, and corporate entertainment
+            of genuine distinction. The room may also be configured for standing receptions of up to forty.
+          </p>
+          <p>
+            Our events team works with you from the first conversation to the final flourish. Whether you require
+            a bespoke tasting menu curated around your preferences, a matched wine flight selected by our sommelier,
+            or simply a quiet supper for eight with people who matter &mdash; we bring the same unhurried care to
+            every occasion.
+          </p>
+          <p>
+            Private dining enquiries are warmly welcomed. We ask only that you give us a little notice, and we
+            will give you an evening to remember.
+          </p>
+          <a href="mailto:events@thestonetable.co.uk" class="events-cta">Enquire About Private Hire</a>
+        </div>
+
+        <div class="events-details">
+          <div class="events-detail-item">
+            <span class="events-detail-label">Seated Capacity</span>
+            <span class="events-detail-value">Up to 24 guests</span>
+          </div>
+          <div class="events-detail-item">
+            <span class="events-detail-label">Standing Reception</span>
+            <span class="events-detail-value">Up to 40 guests</span>
+          </div>
+          <div class="events-detail-item">
+            <span class="events-detail-label">Menus Available</span>
+            <span class="events-detail-value">Seasonal set menu &middot; Bespoke tasting menu &middot; Canapé &amp; bowl food</span>
+          </div>
+          <div class="events-detail-item">
+            <span class="events-detail-label">Hire Includes</span>
+            <span class="events-detail-value">Dedicated host &middot; Sommelier service &middot; Floral arrangement &middot; AV equipment</span>
+          </div>
+          <div class="events-detail-item">
+            <span class="events-detail-label">Minimum Spend</span>
+            <span class="events-detail-value">From &pound;65 per person</span>
+          </div>
+          <div class="events-detail-item">
+            <span class="events-detail-label">Enquiries</span>
+            <span class="events-detail-value"><a href="mailto:events@thestonetable.co.uk" style="color:var(--gold); text-decoration:none;">events@thestonetable.co.uk</a></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════ RESERVE ═══════════════════════════ -->
+  <section id="reserve" aria-labelledby="reserve-heading">
+    <div class="section-wrap">
+      <div class="reveal" style="text-align:center; margin-bottom:3rem;">
+        <span class="section-label" style="display:block; text-align:center;">Reservations</span>
+        <h2 class="section-heading" id="reserve-heading">Reserve a Table</h2>
+        <span class="gold-rule" aria-hidden="true" style="margin:1.4rem auto;"></span>
+        <p style="font-size:0.83rem; color:rgba(245,240,232,0.5); max-width:440px; margin:0 auto;">
+          We take reservations up to eight weeks in advance. For parties of eight or more, please contact us directly.
+        </p>
+      </div>
+
+      <div class="reserve-wrap">
+        <form class="form-grid reveal" id="reservation-form" novalidate aria-label="Table reservation form">
+          <div class="field">
+            <label for="r-name">Full Name</label>
+            <input type="text" id="r-name" name="name" placeholder="Your name" required autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="r-email">Email Address</label>
+            <input type="email" id="r-email" name="email" placeholder="you@example.com" required autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="r-date">Date</label>
+            <input type="date" id="r-date" name="date" required />
+          </div>
+          <div class="field">
+            <label for="r-time">Preferred Time</label>
+            <select id="r-time" name="time" required>
+              <option value="" disabled selected>Select a time</option>
+              <optgroup label="Lunch">
+                <option>12:00</option>
+                <option>12:30</option>
+                <option>13:00</option>
+                <option>13:30</option>
+                <option>14:00</option>
+              </optgroup>
+              <optgroup label="Dinner">
+                <option>18:00</option>
+                <option>18:30</option>
+                <option>19:00</option>
+                <option>19:30</option>
+                <option>20:00</option>
+                <option>20:30</option>
+                <option>21:00</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r-party">Party Size</label>
+            <select id="r-party" name="party" required>
+              <option value="" disabled selected>Number of guests</option>
+              <option>1 guest</option>
+              <option>2 guests</option>
+              <option>3 guests</option>
+              <option>4 guests</option>
+              <option>5 guests</option>
+              <option>6 guests</option>
+              <option>7 guests</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="r-phone">Telephone</label>
+            <input type="tel" id="r-phone" name="phone" placeholder="+44 7700 900000" autocomplete="tel" />
+          </div>
+          <div class="field full">
+            <label for="r-notes">Special Requests</label>
+            <textarea id="r-notes" name="notes" placeholder="Dietary requirements, allergies, celebrations, accessibility needs&hellip;"></textarea>
+          </div>
+          <div class="full" style="display:flex; flex-direction:column; align-items:flex-start; gap:0;">
+            <button type="submit" class="reserve-btn">Reserve My Table</button>
+            <p class="form-note">You will receive a confirmation by email within 24 hours of your request.</p>
+          </div>
+        </form>
+        <!-- confirmation message (hidden by default) -->
+        <div id="form-success" style="display:none; text-align:center; padding:3rem 0;">
+          <span class="section-label" style="display:block; text-align:center; margin-bottom:1rem;">Thank You</span>
+          <p class="story-pull" style="font-size:1.6rem; border-left:none; padding-left:0; text-align:center; max-width:440px; margin:0 auto 1.5rem;">
+            Your reservation request has been received.
+          </p>
+          <p style="font-size:0.82rem; color:rgba(245,240,232,0.5);">We will confirm your table by email within 24 hours. We look forward to welcoming you.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gold-divider" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════ FIND US ════════════════════════════ -->
+  <section id="findus" aria-labelledby="findus-heading">
+    <div class="section-wrap">
+      <div class="reveal" style="margin-bottom:3rem;">
+        <span class="section-label">Visit Us</span>
+        <h2 class="section-heading" id="findus-heading">Find Us in Leeds</h2>
+        <span class="gold-rule" aria-hidden="true"></span>
+        <p style="font-size:0.83rem; color:rgba(245,240,232,0.5); max-width:520px;">
+          We are situated in the heart of Leeds' historic quarter, a short walk from Leeds Corn Exchange
+          and the Victoria Quarter. The nearest car park is Trinity Leeds; we are a four-minute walk from Leeds City Station.
+        </p>
+      </div>
+
+      <div class="findus-grid">
+        <div class="reveal">
+          <span class="section-label" style="display:block; margin-bottom:1.2rem;">Opening Hours</span>
+          <table class="hours-table" aria-label="Opening hours">
+            <tbody>
+              <tr>
+                <td>Monday &ndash; Tuesday</td>
+                <td>Closed</td>
+              </tr>
+              <tr>
+                <td>Wednesday &ndash; Thursday</td>
+                <td>18:00 &ndash; 22:30</td>
+              </tr>
+              <tr>
+                <td>Friday</td>
+                <td>12:00 &ndash; 14:30 &middot; 18:00 &ndash; 23:00</td>
+              </tr>
+              <tr>
+                <td>Saturday</td>
+                <td>12:00 &ndash; 15:00 &middot; 18:00 &ndash; 23:00</td>
+              </tr>
+              <tr>
+                <td>Sunday</td>
+                <td>12:00 &ndash; 16:00</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="font-size:0.73rem; color:rgba(245,240,232,0.3); margin-top:1.2rem; font-style:italic;">
+            Last orders one hour before closing. Kitchen hours may vary on Bank Holidays.
+          </p>
+        </div>
+
+        <div class="findus-contact reveal reveal-delay-2">
+          <div class="contact-item">
+            <div class="contact-item-label">Address</div>
+            <div class="contact-item-value">
+              7 Kirkgate Court<br />
+              Leeds City Centre<br />
+              West Yorkshire, LS1 6AD
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-label">Telephone</div>
+            <div class="contact-item-value">
+              <a href="tel:+441132001974">0113 200 1974</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-label">Reservations</div>
+            <div class="contact-item-value">
+              <a href="mailto:reservations@thestonetable.co.uk">reservations@thestonetable.co.uk</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-label">Private Dining</div>
+            <div class="contact-item-value">
+              <a href="mailto:events@thestonetable.co.uk">events@thestonetable.co.uk</a>
+            </div>
+          </div>
+
+          <div class="map-placeholder" aria-label="Map placeholder — 7 Kirkgate Court, Leeds LS1 6AD">
+            <span>Map &middot; 7 Kirkgate Court &middot; Leeds LS1 6AD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ════════════════════════════ -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-top">
+
+        <div>
+          <div class="footer-logo">The Stone Table</div>
+          <p class="footer-tagline">Modern British Cuisine &middot; Leeds</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="#menu">Seasonal Menu</a></li>
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#events">Private Dining</a></li>
+            <li><a href="#reserve">Reservations</a></li>
+            <li><a href="#findus">Find Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+441132001974">0113 200 1974</a></li>
+            <li><a href="mailto:reservations@thestonetable.co.uk">reservations@thestonetable.co.uk</a></li>
+            <li><a href="mailto:events@thestonetable.co.uk">events@thestonetable.co.uk</a></li>
+            <li style="margin-top:0.8rem;"><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p class="footer-copy">&copy; 2026 The Stone Table. All rights reserved. Company no. 11842376.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Allergen Information</a>
+          <a href="#">Accessibility</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════ JS ════════════════════════════════ -->
+  <script>
+    /* ── NAV: scroll state ─────────────────────────────────────────────── */
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 40) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    /* ── MOBILE MENU ───────────────────────────────────────────────────── */
+    const hamburger    = document.getElementById('hamburger');
+    const mobileMenu   = document.getElementById('mobile-menu');
+    const mobileLinks  = document.querySelectorAll('.mob-nav-link');
+
+    const closeMobileMenu = () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileLinks.forEach(link => link.addEventListener('click', closeMobileMenu));
+
+    /* ── MENU TABS ─────────────────────────────────────────────────────── */
+    const tabBtns   = document.querySelectorAll('.tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.tab;
+
+        tabBtns.forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-selected', String(b === btn));
+        });
+
+        tabPanels.forEach(panel => {
+          const isActive = panel.id === `tab-${target}`;
+          panel.classList.toggle('active', isActive);
+
+          // trigger reveal for newly visible items
+          if (isActive) {
+            panel.querySelectorAll('.reveal').forEach(el => {
+              el.classList.add('visible');
+            });
+          }
+        });
+      });
+    });
+
+    /* ── SCROLL REVEAL ─────────────────────────────────────────────────── */
+    const reveals = document.querySelectorAll('.reveal');
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    reveals.forEach(el => revealObserver.observe(el));
+
+    /* ── RESERVATION FORM ──────────────────────────────────────────────── */
+    const form        = document.getElementById('reservation-form');
+    const formSuccess = document.getElementById('form-success');
+
+    // set min date to today
+    const dateInput = document.getElementById('r-date');
+    if (dateInput) {
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.setAttribute('min', today);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // simple client-side validation
+      const name  = document.getElementById('r-name').value.trim();
+      const email = document.getElementById('r-email').value.trim();
+      const date  = document.getElementById('r-date').value;
+      const time  = document.getElementById('r-time').value;
+      const party = document.getElementById('r-party').value;
+
+      if (!name || !email || !date || !time || !party) {
+        // highlight empty required fields
+        [
+          { el: document.getElementById('r-name'),  val: name },
+          { el: document.getElementById('r-email'), val: email },
+          { el: document.getElementById('r-date'),  val: date },
+          { el: document.getElementById('r-time'),  val: time },
+          { el: document.getElementById('r-party'), val: party },
+        ].forEach(({ el, val }) => {
+          if (!val) {
+            el.style.borderBottomColor = '#c0392b';
+            el.addEventListener('input', () => {
+              el.style.borderBottomColor = '';
+            }, { once: true });
+          }
+        });
+        return;
+      }
+
+      // success state
+      form.style.display = 'none';
+      formSuccess.style.display = 'block';
+      formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* ── SMOOTH ANCHOR SCROLL (offset for fixed nav) ───────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href === '#') return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const offset = 72; // nav height
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+  </script>
+
+</body>
+</html>
